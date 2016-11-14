@@ -5,6 +5,7 @@ $( document ).ready( function() {
 	var arr1 = buildRandomIntegerArray( 5 ),
 		arr2 = buildRandomIntegerArray( 10 ),
 		arr3 = buildRandomIntegerArray( 25 );
+		arr4 = buildRandomIntegerArray( 50 );
 
 
 
@@ -111,20 +112,57 @@ $( document ).ready( function() {
  	}
 
 
+	/**
+	 * ...
+	 */
+	function doSelectionSort( arr ) {
+		// Create duplicate of `arr` arg. via `.slice()`.
+		arr = arr.slice(0)
+
+		// Start 'outer loop' over `arr`.
+		for ( var i = 0, x = arr.length; i < x; i++ ) {
+
+			// Update `min_val`: set equal to the number at position `i`.
+			var min_val = arr[i]
+
+			// Start 'inner loop' over `arr`.
+			for ( var j = ( i + 1 ); j < x; j++ ) {
+
+				// If the current 'inner loop' array item is less than `min_val`:
+				if ( arr[j] < min_val ) {
+
+					// Update `min_val`: set equal to current item.
+					min_val = arr[j];
+
+					// Swap the current item with the item at position `i`.
+					arr[j] = arr[i];
+					arr[i] = min_val;
+				}
+			}
+		}
+
+		// Return the sorted array.
+		return arr;
+	}
+
+
 
 	/* -------------------------------------------------- */
 	/* INIT */
 	/* -------------------------------------------------- */
-	var arr1_sorted = doBubbleSort( arr1 );
+	var arr1_sorted = doSelectionSort( arr1 );
 	console.log( arr1 ); /// TEMP
 	console.log( arr1_sorted ); /// TEMP
 
-	var arr2_sorted = doBubbleSort( arr2 );
+	var arr2_sorted = doSelectionSort( arr2 );
 	console.log( arr2 ); /// TEMP
 	console.log( arr2_sorted ); /// TEMP
 
-	var arr3_sorted = doBubbleSort( arr3 );
+	var arr3_sorted = doSelectionSort( arr3 );
 	console.log( arr3 ); /// TEMP
 	console.log( arr3_sorted ); /// TEMP
 
+	var arr4_sorted = doSelectionSort( arr4 );
+	console.log( arr4 ); /// TEMP
+	console.log( arr4_sorted ); /// TEMP
 } );
