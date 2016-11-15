@@ -3,9 +3,10 @@ $( document ).ready( function() {
 	/* DECLARE VARS */
 	/* -------------------------------------------------- */
 	var arr1 = buildRandomIntegerArray( 5 ),
-		arr2 = buildRandomIntegerArray( 10 ),
-		arr3 = buildRandomIntegerArray( 25 );
-		arr4 = buildRandomIntegerArray( 50 );
+		arr2 = buildRandomIntegerArray( 8 ),
+		arr3 = buildRandomIntegerArray( 10 ),
+		arr4 = buildRandomIntegerArray( 25 );
+		arr5 = buildRandomIntegerArray( 50 );
 
 
 
@@ -148,14 +149,69 @@ $( document ).ready( function() {
 
 	/**
 	 * ...
+	 *
+	 * TODO:
+	 * Update function to work in cases where the result of ( arr.length / 2 ) *is not* an even number.
+	 * EG. ( 10 / 2 ).
 	 */
 	function doMergeSort( arr ) {
-		// Create duplicate of `arr` arg. via `.slice()`.
-		arr = arr.slice( 0 );
+		// Initialize empty array for 'sorted' values.
+		var sorted = [];
 
-		// DO THE NEEDFUL!
+		// If `arr` has more than 1x member:
+		if ( arr.length > 1 ) {
 
-		// Return the sorted array.
+			// Add empty arrays to `sorted`.
+			while ( sorted.length < ( arr.length / 2 ) ) {
+				sorted.push( [] );
+			}
+
+			// Loop over contents of `arr`.
+			// ...
+			for ( var i = 0, x = arr.length; i < x; i++ ) {
+				// If current index is *not* an even number, skip current iteration.
+				if ( i % 2 !== 0 ) { continue; }
+
+				// ...
+				var sorted_arr_pos = Math.floor( i / 2 );
+
+				// If both the array member at position `i` and postion `i + 1` are not emtpy:
+				// - Compare the first members of the arrays at position `i` and `i + 1`;
+				// - ...
+				while ( arr[ i ].length && arr[ i + 1 ].length ) {
+					if ( arr[ i ][ 0 ] > arr[ i + 1 ][ 0 ] ) {
+						sorted[ sorted_arr_pos ].push( arr[ i ].shift() );
+					} else {
+						sorted[ sorted_arr_pos ].push( arr[ i + 1 ].shift() );
+					}
+				}
+
+				// If either of the arrays being compared *are not* empty:
+				// Add any remaining members to array at `sorted_arr_pos`.
+				if ( arr[ i ].length ) {
+					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ i ] );
+				} else if ( arr[ i + 1 ].length ) {
+					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ i + 1 ] );
+				}
+			}
+
+			// Rescursively call `doMergeSort()` with `sorted` array.
+			// Assign result to original `arr` arg.
+			arr = doMergeSort( sorted );
+
+		// Else if `arr` has exactly 1x member which is an array:
+		// - sorting process is complete;
+		// - ...
+		} else if ( arr.length === 1 && Array.isArray( arr[ 0 ] ) ) {
+
+			// Return sorted array to initial callsite.
+			return arr[ 0 ].reverse();
+		}
+
+		// Return updated array to callsite, which will be either:
+		// - `doMergeSort()` (in the case of a recusive function call);
+		// - OR
+		// - outermost context (in case where initial invocation received invalid args.).
 		return arr;
 	}
 
@@ -164,19 +220,19 @@ $( document ).ready( function() {
 	/* -------------------------------------------------- */
 	/* INIT */
 	/* -------------------------------------------------- */
-	var arr1_sorted = doSelectionSort( arr1 );
-	console.log( arr1 ); /// TEMP
-	console.log( arr1_sorted ); /// TEMP
+	// var arr1_sorted = doMergeSort( arr1.map( function( item ) { return [ item ]; } ) );
+	// console.log( arr1 ); /// TEMP
+	// console.log( arr1_sorted ); /// TEMP
 
-	var arr2_sorted = doSelectionSort( arr2 );
+	var arr2_sorted = doMergeSort( arr2.map( function( item ) { return [ item ]; } ) );
 	console.log( arr2 ); /// TEMP
 	console.log( arr2_sorted ); /// TEMP
 
-	var arr3_sorted = doSelectionSort( arr3 );
-	console.log( arr3 ); /// TEMP
-	console.log( arr3_sorted ); /// TEMP
+	// var arr3_sorted = doMergeSort( arr3.map( function( item ) { return [ item ]; } ) );
+	// console.log( arr3 ); /// TEMP
+	// console.log( arr3_sorted ); /// TEMP
 
-	var arr4_sorted = doSelectionSort( arr4 );
-	console.log( arr4 ); /// TEMP
-	console.log( arr4_sorted ); /// TEMP
+	// var arr4_sorted = doMergeSort( arr4.map( function( item ) { return [ item ]; } ) );
+	// console.log( arr4 ); /// TEMP
+	// console.log( arr4_sorted ); /// TEMP
 } );
