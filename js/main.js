@@ -146,6 +146,20 @@ $( document ).ready( function() {
 	}
 
 
+	/**
+	 * ...
+	 */
+	function doMergeSort( arr ) {
+		// Create duplicate of `arr` arg. via `.slice()`.
+		arr = arr.slice( 0 );
+
+		// DO THE NEEDFUL!
+
+		// Return the sorted array.
+		return arr;
+	}
+
+
 
 	/* -------------------------------------------------- */
 	/* INIT */
