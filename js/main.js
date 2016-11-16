@@ -149,49 +149,69 @@ $( document ).ready( function() {
 
 	/**
 	 * ...
-	 *
-	 * TODO:
-	 * Update function to work in cases where the result of ( arr.length / 2 ) *is not* an even number.
-	 * EG. ( 10 / 2 ).
 	 */
 	function doMergeSort( arr ) {
 		// Initialize empty array for 'sorted' values.
 		var sorted = [];
+		var position;
+		var sorted_arr_pos;
+		var arr_is_even = ( arr.length % 2 === 0 );
 
 		// If `arr` has more than 1x member:
 		if ( arr.length > 1 ) {
 
 			// Add empty arrays to `sorted`.
-			while ( sorted.length < ( arr.length / 2 ) ) {
+			while ( sorted.length < Math.floor( arr.length / 2 ) ) {
 				sorted.push( [] );
 			}
 
 			// Loop over contents of `arr`.
 			// ...
 			for ( var i = 0, x = arr.length; i < x; i++ ) {
-				// If current index is *not* an even number, skip current iteration.
-				if ( i % 2 !== 0 ) { continue; }
-
 				// ...
-				var sorted_arr_pos = Math.floor( i / 2 );
+				position = i;
+				sorted_arr_pos = Math.floor( position / 2 );
 
-				// If both the array member at position `i` and postion `i + 1` are not emtpy:
-				// - Compare the first members of the arrays at position `i` and `i + 1`;
+				// If current index is *not* an even number, skip current iteration.
+				if ( i % 2 !== 0 ) {
+					continue;
+				}
+
+				// Block below handles special cases where:
+				// - Current iteration is last in array;
+				// - Array length is an odd number (eg. 5).
+				//
+				// TODO:
+				// Expand on support comment/documentation
+				if ( i === arr.length - 1 && !arr_is_even ) {
+					// Set `arr[ position - 1 ]` equal to `sorted[ sorted.length - 1 ]`;
+					arr[ position - 1 ] = sorted[ sorted.length - 1 ];
+
+					// Empty last sub-array within `sorted`.
+					sorted[ sorted.length - 1 ] = [];
+
+					// Decrement `position` and `sorted_arr_pos`.
+					position--;
+					sorted_arr_pos--;
+				}
+
+				// If both the array member at `position` and `position + 1` are not emtpy:
+				// - Compare the first members of the arrays at `position and `position + 1`;
 				// - ...
-				while ( arr[ i ].length && arr[ i + 1 ].length ) {
-					if ( arr[ i ][ 0 ] > arr[ i + 1 ][ 0 ] ) {
-						sorted[ sorted_arr_pos ].push( arr[ i ].shift() );
+				while ( arr[ position ].length && arr[ position + 1 ].length ) {
+					if ( arr[ position ][ 0 ] > arr[ position + 1 ][ 0 ] ) {
+						sorted[ sorted_arr_pos ].push( arr[ position ].shift() );
 					} else {
-						sorted[ sorted_arr_pos ].push( arr[ i + 1 ].shift() );
+						sorted[ sorted_arr_pos ].push( arr[ position + 1 ].shift() );
 					}
 				}
 
 				// If either of the arrays being compared *are not* empty:
 				// Add any remaining members to array at `sorted_arr_pos`.
-				if ( arr[ i ].length ) {
-					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ i ] );
-				} else if ( arr[ i + 1 ].length ) {
-					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ i + 1 ] );
+				if ( arr[ position ].length ) {
+					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ position ] );
+				} else if ( arr[ position + 1 ].length ) {
+					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ position + 1 ] );
 				}
 			}
 
@@ -220,19 +240,19 @@ $( document ).ready( function() {
 	/* -------------------------------------------------- */
 	/* INIT */
 	/* -------------------------------------------------- */
-	// var arr1_sorted = doMergeSort( arr1.map( function( item ) { return [ item ]; } ) );
-	// console.log( arr1 ); /// TEMP
-	// console.log( arr1_sorted ); /// TEMP
+	var arr1_sorted = doMergeSort( arr1.map( function( item ) { return [ item ]; } ) );
+	console.log( arr1 ); /// TEMP
+	console.log( arr1_sorted ); /// TEMP
 
 	var arr2_sorted = doMergeSort( arr2.map( function( item ) { return [ item ]; } ) );
 	console.log( arr2 ); /// TEMP
 	console.log( arr2_sorted ); /// TEMP
 
-	// var arr3_sorted = doMergeSort( arr3.map( function( item ) { return [ item ]; } ) );
-	// console.log( arr3 ); /// TEMP
-	// console.log( arr3_sorted ); /// TEMP
+	var arr3_sorted = doMergeSort( arr3.map( function( item ) { return [ item ]; } ) );
+	console.log( arr3 ); /// TEMP
+	console.log( arr3_sorted ); /// TEMP
 
-	// var arr4_sorted = doMergeSort( arr4.map( function( item ) { return [ item ]; } ) );
-	// console.log( arr4 ); /// TEMP
-	// console.log( arr4_sorted ); /// TEMP
+	var arr4_sorted = doMergeSort( arr4.map( function( item ) { return [ item ]; } ) );
+	console.log( arr4 ); /// TEMP
+	console.log( arr4_sorted ); /// TEMP
 } );
