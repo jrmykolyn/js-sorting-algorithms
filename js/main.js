@@ -149,6 +149,9 @@ $( document ).ready( function() {
 
 	/**
 	 * ...
+	 *
+	 * TODO:
+	 * Update function to accept input as  1-dimensional array, split into 2-dimensional on intial invocation.
 	 */
 	function doMergeSort( arr ) {
 		// Initialize empty array for 'sorted' values.
@@ -168,8 +171,13 @@ $( document ).ready( function() {
 			// Loop over contents of `arr`.
 			// ...
 			for ( var i = 0, x = arr.length; i < x; i++ ) {
-				// ...
+				// Set `position` equal to current value of `i`.
+				// A separate variable is required, as we may need to change the value of
+				// `position` within the current loop iteration.
 				position = i;
+
+				// Set `sorted_arr_pos` to the current `position` divided by 2, rounded down.
+				// This var stores the position of the empty array that we'll be sorting *into*.
 				sorted_arr_pos = Math.floor( position / 2 );
 
 				// If current index is *not* an even number, skip current iteration.
@@ -209,7 +217,7 @@ $( document ).ready( function() {
 				// If either of the arrays being compared *are not* empty:
 				// Add any remaining members to array at `sorted_arr_pos`.
 				if ( arr[ position ].length ) {
-					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ position ] );
+					sorted[ sorted_arr_pos ] = sorted[ sorted_arr_pos ].concat( arr[ position ] );
 				} else if ( arr[ position + 1 ].length ) {
 					sorted[ sorted_arr_pos ] =  sorted[ sorted_arr_pos ].concat( arr[ position + 1 ] );
 				}
